@@ -70,4 +70,31 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  // add a friend to a users friend list
+  async addFriend(req, res) {
+    console.log(req.params);
+    console.log(req.body);
+    try {
+      // const friend = await User.findOne({ _id: req.body.friendId })
+
+      // if(!friend) {
+      //   return res.status(404).json({ message: 'no friend found with this Id', })
+      // }
+
+      const user = await User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $addToSet: { friends: req.body.friendId } },
+        { runValidators: true, new: true }
+      )
+
+      if(!user) {
+        return res.status(404).json({ message: 'no user found with this Id', })
+      }
+
+      res.json("Friend added!");
+    } catch (errr) {
+      res.status(500).json(err);
+    }
+  }
 };

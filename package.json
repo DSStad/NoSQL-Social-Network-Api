@@ -4,7 +4,8 @@
   "description": "api for social network",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx nodemon index.js"
   },
   "author": "dsstad",
   "license": "ISC",
