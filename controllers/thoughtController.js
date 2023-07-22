@@ -102,6 +102,7 @@ module.exports = {
 
   //   add a reaction to a thought
   async addReaction(req, res) {
+    console.log(req.body);
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
@@ -122,17 +123,20 @@ module.exports = {
   //   remove reaction
   async removeReaction(req, res) {
     try {
+      let reaction = req.body.reactionId;
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $pull: { reaction: { reactionId: req.params.reactionId } } },
+        { $pull: { reactions: { reactionId: req.body.reactionId } } },
         { runValidators: true, new: true }
       );
 
       if (!thought) {
         return res.status(404).json({ message: "No thought with that Id" });
+      } else if (!reaction) {
+        return res.status(404).json({ message: "no reaction with this Id" });
       }
 
-      res.json(thought);
+      res.json("Reaction removed.");
     } catch (err) {
       res.status(500).json(err);
     }

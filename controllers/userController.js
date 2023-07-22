@@ -81,7 +81,7 @@ module.exports = {
       // if(!friend) {
       //   return res.status(404).json({ message: 'no friend found with this Id', })
       // }
-
+      let friend = req.body.friendId
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
         { $addToSet: { friends: req.body.friendId } },
@@ -90,6 +90,8 @@ module.exports = {
 
       if(!user) {
         return res.status(404).json({ message: 'no user found with this Id', })
+      } else if (!friend) {
+        return res.status(404).json({ message: 'no friend found with this Id', })
       }
 
       res.json("Friend added!");
